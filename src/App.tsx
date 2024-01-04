@@ -1,13 +1,12 @@
 // import filter from 'lodash/filter';
-import map from 'lodash/map';
-import flow from 'lodash/flow';
+import * as R from 'remeda';
 import { useEffect, useState } from 'react';
 
 function App() {
   const [es6MapTime, setEs6MapTime] = useState(0);
   const [lodashMapTime, setLodashMapTime] = useState(0);
 
-  const LENGTH = 1_000_000;
+  const LENGTH = 60_000_000;
 
   /**
    *  ? 숫자 배열 데이터
@@ -54,7 +53,8 @@ function App() {
 
   useEffect(() => {
     // ES6 map
-    flow(
+    R.pipe(
+      undefined,
       () => {
         const es6MapStart = performance.now();
         return es6MapStart;
@@ -81,9 +81,10 @@ function App() {
         const es6MapEnd = performance.now();
         setEs6MapTime(es6MapEnd - time);
       },
-    )();
+    );
 
-    flow(
+    R.pipe(
+      undefined,
       () => {
         // Lodash map
         const lodashMapStart = performance.now();
@@ -95,7 +96,7 @@ function App() {
         //   Array.from({ length: LENGTH }, (_, i) => i),
         //   (item) => item * 2,
         // );
-        map(
+        R.map(
           Array.from({ length: LENGTH }, (_, i) => i),
           (item) => ({
             id: item + 1,
@@ -117,7 +118,7 @@ function App() {
         const lodashMapEnd = performance.now();
         setLodashMapTime(lodashMapEnd - time);
       },
-    )();
+    );
   }, []);
 
   return (
